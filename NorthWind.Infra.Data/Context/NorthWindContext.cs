@@ -6,6 +6,11 @@ namespace Infra.Data.Context
 {
     public partial class NorthWindContext : DbContext
     {
+        public NorthWindContext(DbContextOptions<NorthWindContext> options) : base(options)
+        {
+
+        }
+
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<CustomerCustomerDemo> CustomerCustomerDemo { get; set; }
@@ -24,7 +29,7 @@ namespace Infra.Data.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseSqlServer(@"Server=VINICIUS_NOTE\VINICIUS;Database=northwind;Trusted_Connection=True;");
+            //optionsBuilder.UseSqlServer(@"Server=VINICIUS_NOTE\VINICIUS;Database=northwind;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
