@@ -3,17 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NorthWind.Domain.Entities;
+using Infra.Data.Context;
 
 namespace NorthWind.WebService.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private readonly NorthWindContext nortWindContext;
+
+        public ValuesController(NorthWindContext nortWindContext)
+        {
+            this.nortWindContext = nortWindContext;
+        }
+
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Category> Get()
         {
-            return new string[] { "value1", "value2" };
+            using (var db = nortWindContext)
+            {
+                var result = db.Categories.ToList();
+                return result;
+            }
         }
 
         // GET api/values/5

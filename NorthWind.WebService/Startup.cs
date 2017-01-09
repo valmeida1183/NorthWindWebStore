@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using NorthWind.Infra.CrossCuting.IoC;
+using NorthWind.Application.AutoMapper;
 
 namespace NorthWind.WebService
 {
@@ -30,10 +32,18 @@ namespace NorthWind.WebService
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            
             services.AddDbContext<NorthWindContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("NorthWindDB")));
 
             services.AddMvc();
+
+            //Add Automapper configuration
+            AutoMapperConfig.RegisterMappings();       
+
+            //Add Application dependency injection
+            BootStrapper.RegisterServices(services);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

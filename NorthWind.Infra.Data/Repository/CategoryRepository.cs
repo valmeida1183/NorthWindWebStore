@@ -1,4 +1,5 @@
-﻿using NorthWind.Domain.Entities;
+﻿using Infra.Data.Context;
+using NorthWind.Domain.Entities;
 using NorthWind.Domain.Interfaces.Repository;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,9 @@ namespace NorthWind.Infra.Data.Repository
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
+        public CategoryRepository(NorthWindContext context) : base(context)
+        {
 
+        }
     }
 }

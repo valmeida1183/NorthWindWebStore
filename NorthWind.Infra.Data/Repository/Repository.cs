@@ -4,11 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using Infra.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace NorthWind.Infra.Data.Repository
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
+        protected NorthWindContext Db;
+        protected DbSet<TEntity> DbSet;
+
+        public Repository(NorthWindContext context)
+        {
+            Db = context;
+            DbSet = Db.Set<TEntity>();
+        }
+
         public TEntity Add(TEntity obj)
         {
             throw new NotImplementedException();
@@ -21,7 +32,7 @@ namespace NorthWind.Infra.Data.Repository
 
         public IEnumerable<TEntity> GetAll()
         {
-            throw new NotImplementedException();
+            return DbSet.ToList();
         }
 
         public TEntity GetById(int id)
