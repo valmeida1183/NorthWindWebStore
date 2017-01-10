@@ -8,7 +8,7 @@ namespace NorthWind.Application.AutoMapper
     {
         public ExpandoObjectToDomainMappingProfile()
         {
-            CreateMap<ExpandoObject, Category>();
+            CreateMap<DynamicObject, Category>();
         }
     }
 }

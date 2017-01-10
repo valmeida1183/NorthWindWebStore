@@ -8,6 +8,6 @@ namespace NorthWind.Application.Interfaces
 {
     public interface ICategoryAppService : IDisposable
     {
-        IEnumerable<ExpandoObject> GetAll();
+        ExpandoObject GetAll();
     }
 }

@@ -18,7 +18,8 @@ namespace NorthWind.Domain.Services
         }
         public void Dispose()
         {
-            throw new NotImplementedException();
+            categoryRepository.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         public IEnumerable<Category> GetAll()

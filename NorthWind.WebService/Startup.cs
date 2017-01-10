@@ -11,6 +11,7 @@ using Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using NorthWind.Infra.CrossCuting.IoC;
 using NorthWind.Application.AutoMapper;
+using Newtonsoft.Json.Serialization;
 
 namespace NorthWind.WebService
 {
@@ -39,7 +40,7 @@ namespace NorthWind.WebService
             services.AddMvc();
 
             //Add Automapper configuration
-            AutoMapperConfig.RegisterMappings();       
+            //AutoMapperConfig.RegisterMappings();       
 
             //Add Application dependency injection
             BootStrapper.RegisterServices(services);

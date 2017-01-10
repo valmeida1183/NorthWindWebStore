@@ -27,7 +27,8 @@ namespace NorthWind.Infra.Data.Repository
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Db.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         public IEnumerable<TEntity> GetAll()

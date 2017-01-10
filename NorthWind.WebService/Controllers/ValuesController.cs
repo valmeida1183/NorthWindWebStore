@@ -5,28 +5,39 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NorthWind.Domain.Entities;
 using Infra.Data.Context;
+using NorthWind.Application.Interfaces;
+using System.Dynamic;
 
 namespace NorthWind.WebService.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private readonly NorthWindContext nortWindContext;
+        //private readonly NorthWindContext nortWindContext;
+        private readonly ICategoryAppService categoryAppService;
 
-        public ValuesController(NorthWindContext nortWindContext)
+        //public ValuesController(NorthWindContext nortWindContext)
+        //{
+        //    this.nortWindContext = nortWindContext;
+        //}
+
+        public ValuesController(ICategoryAppService categoryAppService)
         {
-            this.nortWindContext = nortWindContext;
+            this.categoryAppService = categoryAppService;
         }
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<Category> Get()
+        public IActionResult Get()
         {
-            using (var db = nortWindContext)
-            {
-                var result = db.Categories.ToList();
-                return result;
-            }
+            //using (var db = nortWindContext)
+            //{
+            //    var result = db.Categories.ToList();
+            //    return result;
+            //}
+            var expando = categoryAppService.GetAll();
+
+            return Ok(expando);
         }
 
         // GET api/values/5
