@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Infra.Data.Context;
-using Microsoft.EntityFrameworkCore;
 using NorthWind.Infra.CrossCuting.IoC;
-using NorthWind.Application.AutoMapper;
-using Newtonsoft.Json.Serialization;
 
 namespace NorthWind.WebService
 {
@@ -33,17 +25,13 @@ namespace NorthWind.WebService
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            
-            services.AddDbContext<NorthWindContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("NorthWindDB")));
-
             services.AddMvc();
 
             //Add Automapper configuration
             //AutoMapperConfig.RegisterMappings();       
 
             //Add Application dependency injection
-            BootStrapper.RegisterServices(services);
+            BootStrapper.RegisterServices(services, Configuration.GetConnectionString("NorthWindDB"));
 
         }
 

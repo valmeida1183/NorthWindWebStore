@@ -1,25 +1,40 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Infra.Data.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using NorthWind.Application.Interfaces;
 using NorthWind.Application.Services;
 using NorthWind.Domain.Interfaces.Repository;
 using NorthWind.Domain.Interfaces.Service;
 using NorthWind.Domain.Services;
+using NorthWind.Infra.Data.Interface;
 using NorthWind.Infra.Data.Repository;
+using NorthWind.Infra.Data.UoW;
 
 namespace NorthWind.Infra.CrossCuting.IoC
 {
     public class BootStrapper
     {        
-        public static void RegisterServices(IServiceCollection services)
+        public static void RegisterServices(IServiceCollection services, string connectionString)
         {
             // Registra todas as injeções de dependência do projeto em um módulo separado.
 
+            // Add framework services.
+            services.AddDbContext<NorthWindContext>(options =>
+            options.UseSqlServer(connectionString));            
+
             // App
-            services.AddTransient<ICategoryAppService, CategoryAppService>();
+            services.AddScoped<ICategoryAppService, CategoryAppService>();
             // Domain
-            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             // Infra Dados
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
+
+        //public static void RegisterContexts(IServiceCollection services, string connectionString)
+        //{
+        //    services.AddDbContext<NorthWindContext>(options =>
+        //    options.UseSqlServer(connectionString));
+        //}
     }
 }

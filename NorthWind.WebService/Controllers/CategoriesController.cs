@@ -11,30 +11,19 @@ using System.Dynamic;
 namespace NorthWind.WebService.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class CategoriesController : Controller
     {
-        //private readonly NorthWindContext nortWindContext;
         private readonly ICategoryAppService categoryAppService;
-
-        //public ValuesController(NorthWindContext nortWindContext)
-        //{
-        //    this.nortWindContext = nortWindContext;
-        //}
-
-        public ValuesController(ICategoryAppService categoryAppService)
+        
+        public CategoriesController(ICategoryAppService categoryAppService)
         {
             this.categoryAppService = categoryAppService;
         }
 
-        // GET api/values
+        // GET api/categories
         [HttpGet]
         public IActionResult Get()
-        {
-            //using (var db = nortWindContext)
-            //{
-            //    var result = db.Categories.ToList();
-            //    return result;
-            //}
+        {            
             var expando = categoryAppService.GetAll();
 
             return Ok(expando);

@@ -16,12 +16,7 @@ namespace NorthWind.Domain.Services
         {
             this.categoryRepository = categoryRepository;
         }
-        public void Dispose()
-        {
-            categoryRepository.Dispose();
-            GC.SuppressFinalize(this);
-        }
-
+        
         public IEnumerable<Category> GetAll()
         {
             return categoryRepository.GetAll();

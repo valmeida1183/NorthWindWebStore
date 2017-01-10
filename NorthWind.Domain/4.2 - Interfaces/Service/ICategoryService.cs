@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NorthWind.Domain.Interfaces.Service
 {
-    public interface ICategoryService : IDisposable
+    public interface ICategoryService
     {
         IEnumerable<Category> GetAll();
     }

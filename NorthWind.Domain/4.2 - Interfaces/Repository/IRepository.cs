@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NorthWind.Domain.Interfaces.Repository
 {
-    public interface IRepository<TEntity> : IDisposable where TEntity : class
+    public interface IRepository<TEntity> where TEntity : class
     {
         TEntity Add(TEntity obj);
         TEntity GetById(int id);

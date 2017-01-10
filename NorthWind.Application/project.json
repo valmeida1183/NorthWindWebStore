@@ -3,8 +3,9 @@
 
   "dependencies": {
     "AutoMapper": "5.2.0",
-    "NETStandard.Library": "1.6.0",
+    "NETStandard.Library": "1.6.1",
     "NorthWind.Domain": "1.0.0-*",
+    "NorthWind.Infra.Data": "1.0.0-*",
     "System.Dynamic.Runtime": "4.3.0"
   },
 
