@@ -23,23 +23,47 @@ namespace NorthWind.WebService.Controllers
         // GET api/categories
         [HttpGet]
         public IActionResult Get()
-        {            
-            var expando = categoryAppService.GetAll();
+        {               
+            dynamic expando = categoryAppService.GetAll();
 
-            return Ok(expando);
+            if (expando.categories != null && expando.categories.Count <= 0)
+            {
+                return NoContent();
+            }
+                        
+            return Ok(expando);                        
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/categories/5
+        [HttpGet("{id}", Name = "GetCategory")]
+        public IActionResult Get(int id)
         {
-            return "value";
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            dynamic expando = categoryAppService.GetById(id);
+
+            if (expando.category == null)
+            {
+                return NoContent();
+            }
+            return Ok(expando);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody] ExpandoObject category)
         {
+            if (category == null)
+            {
+                return BadRequest();
+            }
+
+            dynamic expando = categoryAppService.Add(category);
+
+            return CreatedAtRoute("GetCategory", new { id = expando.category.CategoryId }, expando);
         }
 
         // PUT api/values/5

@@ -21,5 +21,16 @@ namespace NorthWind.Domain.Services
         {
             return categoryRepository.GetAll();
         }
+
+        public Category GetById(int id)
+        {
+            return categoryRepository.GetById(id);
+        }
+
+        public Category Add(Category category)
+        {
+            return categoryRepository.Add(category);
+        }
+
     }
 }

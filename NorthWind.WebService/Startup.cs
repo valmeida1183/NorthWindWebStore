@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NorthWind.Application.AutoMapper;
 using NorthWind.Infra.CrossCuting.IoC;
 
 namespace NorthWind.WebService
@@ -26,6 +27,9 @@ namespace NorthWind.WebService
         {
             // Add framework services.
             services.AddMvc();
+
+            // Enable Cors
+            services.AddCors();
 
             //Add Automapper configuration
             //AutoMapperConfig.RegisterMappings();       

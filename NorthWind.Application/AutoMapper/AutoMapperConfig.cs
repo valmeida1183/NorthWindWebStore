@@ -6,13 +6,13 @@ namespace NorthWind.Application.AutoMapper
     {
         public static void RegisterMappings()
         {
-            //Mapper.Initialize(cfg =>
-            //{
-            //    cfg.AddProfile<DomainToExpandoObjectMappingProfile>();
-            //    cfg.AddProfile<ExpandoObjectToDomainMappingProfile>();
-            //});
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<DomainToExpandoObjectMappingProfile>();
+                cfg.AddProfile<ExpandoObjectToDomainMappingProfile>();
+            });
 
-            Mapper.Initialize(cfg => { });
+            //Mapper.Initialize(cfg => { });
         }
     }
 }

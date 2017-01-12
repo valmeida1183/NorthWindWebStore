@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NorthWind.Infra.Data.Repository
 {
+    // basic class that represent all crud operations for all entities.
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected NorthWindContext Db;
@@ -22,7 +23,9 @@ namespace NorthWind.Infra.Data.Repository
 
         public TEntity Add(TEntity obj)
         {
-            throw new NotImplementedException();
+            var objreturn = DbSet.Add(obj);
+            return objreturn.Entity;
+                        
         }
                
         public IEnumerable<TEntity> GetAll()
@@ -32,7 +35,7 @@ namespace NorthWind.Infra.Data.Repository
 
         public TEntity GetById(int id)
         {
-            throw new NotImplementedException();
+            return DbSet.Find(id);
         }
 
         public void Remove(int id)

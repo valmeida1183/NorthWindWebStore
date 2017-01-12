@@ -29,12 +29,6 @@ namespace NorthWind.Infra.CrossCuting.IoC
             // Infra Dados
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-        }
-
-        //public static void RegisterContexts(IServiceCollection services, string connectionString)
-        //{
-        //    services.AddDbContext<NorthWindContext>(options =>
-        //    options.UseSqlServer(connectionString));
-        //}
+        }       
     }
 }

@@ -9,5 +9,7 @@ namespace NorthWind.Domain.Interfaces.Service
     public interface ICategoryService
     {
         IEnumerable<Category> GetAll();
+        Category GetById(int id);
+        Category Add(Category category);
     }
 }
