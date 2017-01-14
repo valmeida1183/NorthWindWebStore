@@ -4,6 +4,8 @@ using NorthWind.Domain.Interfaces.Service;
 using NorthWind.Infra.Data.Interface;
 using NorthWind.Domain.Entities;
 using AutoMapper;
+using NorthWind.Application.DynamicMapper;
+using System.Collections.Generic;
 
 namespace NorthWind.Application.Services
 {
@@ -19,8 +21,8 @@ namespace NorthWind.Application.Services
         {
             dynamic expando = new ExpandoObject();
             expando.categories = categoryService.GetAll();
-                        
-            return expando;
+
+            return expando;            
         }
 
         public ExpandoObject GetById(int id)
@@ -29,13 +31,17 @@ namespace NorthWind.Application.Services
             expando.category = categoryService.GetById(id);
 
             return expando;
+
+            //var category = categoryService.GetById(id);
+            //dynamic expando = DynamicMap.ToExpandoObj(category);
+            //return expando;
         }
 
         public ExpandoObject Add(ExpandoObject category)
         {
             BeginTransaction();
             
-            var entity = DynamicMapper.DynamicToEntity.ToEntity<Category>(category);
+            var entity = DynamicMap.ToEntity<Category>(category);
 
             if (string.IsNullOrEmpty(entity.CategoryName)) // change to validation concern pattern
             {
@@ -49,6 +55,40 @@ namespace NorthWind.Application.Services
             //var id = expando.category.CategoryId;
 
             return expando;
+        }
+
+        public ExpandoObject Update(ExpandoObject category)
+        {
+            BeginTransaction();
+
+            var entity = DynamicMap.ToEntity<Category>(category);
+
+            if (entity.CategoryId == 0)
+            {
+                return null;
+            }
+            dynamic expando = new ExpandoObject();
+            expando.category = categoryService.Update(entity);
+
+            Commit();
+
+            return expando;
+        }
+
+        public bool Remove(int id)
+        {
+            BeginTransaction();
+            var category = categoryService.GetById(id);
+
+            if (category == null)
+            {
+                return false;
+            }
+
+            categoryService.Remove(category);
+
+            Commit();
+            return true;
         }
     }
 }

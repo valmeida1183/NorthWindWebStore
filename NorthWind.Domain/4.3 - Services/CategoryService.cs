@@ -32,5 +32,16 @@ namespace NorthWind.Domain.Services
             return categoryRepository.Add(category);
         }
 
+        public Category Update(Category category)
+        {
+            return categoryRepository.Update(category);
+        }
+
+        public void Remove(Category category)
+        {
+            categoryRepository.Remove(category);
+        }
+
+
     }
 }

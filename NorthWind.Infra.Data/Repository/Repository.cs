@@ -38,9 +38,9 @@ namespace NorthWind.Infra.Data.Repository
             return DbSet.Find(id);
         }
 
-        public void Remove(int id)
+        public void Remove(TEntity obj)
         {
-            throw new NotImplementedException();
+            DbSet.Remove(obj);
         }
 
         public int SaveChanges()
@@ -55,7 +55,11 @@ namespace NorthWind.Infra.Data.Repository
 
         public TEntity Update(TEntity obj)
         {
-            throw new NotImplementedException();
+            var entry = Db.Entry(obj);
+            DbSet.Attach(obj);
+            entry.State = EntityState.Modified;
+
+            return obj;
         }
     }
 }

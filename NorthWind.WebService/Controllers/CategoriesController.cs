@@ -10,6 +10,8 @@ using System.Dynamic;
 
 namespace NorthWind.WebService.Controllers
 {
+    /* This Controller uses ExpandoObject Approach + DynamicMap */
+
     [Route("api/[controller]")]
     public class CategoriesController : Controller
     {
@@ -31,7 +33,7 @@ namespace NorthWind.WebService.Controllers
                 return NoContent();
             }
                         
-            return Ok(expando);                        
+            return Ok(expando.categories);                        
         }
 
         // GET api/categories/5
@@ -49,7 +51,7 @@ namespace NorthWind.WebService.Controllers
             {
                 return NoContent();
             }
-            return Ok(expando);
+            return Ok(expando.category);
         }
 
         // POST api/values
@@ -63,19 +65,48 @@ namespace NorthWind.WebService.Controllers
 
             dynamic expando = categoryAppService.Add(category);
 
+            if (expando == null)
+            {
+                return NoContent();
+            }
+
             return CreatedAtRoute("GetCategory", new { id = expando.category.CategoryId }, expando);
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public IActionResult Put([FromBody] ExpandoObject category)
         {
+            if (category == null)
+            {
+                return BadRequest();
+            }
+
+            dynamic expando = categoryAppService.Update(category);
+            if (expando == null)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+            
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            if (categoryAppService.Remove(id))
+            {
+                return Ok();
+            }
+
+            return NotFound();
         }
     }
 }

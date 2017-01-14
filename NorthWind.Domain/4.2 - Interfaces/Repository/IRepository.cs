@@ -12,7 +12,7 @@ namespace NorthWind.Domain.Interfaces.Repository
         TEntity GetById(int id);
         IEnumerable<TEntity> GetAll();
         TEntity Update(TEntity obj);
-        void Remove(int id);
+        void Remove(TEntity obj);
         IEnumerable<TEntity> Search(Expression<Func<TEntity, bool>> predicate);
         int SaveChanges();
     }
