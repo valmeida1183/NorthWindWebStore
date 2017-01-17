@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NorthWind.Domain.Entities;
 using NorthWind.Domain.Interfaces.Repository;
+using NorthWind.Domain.Validations.Categories;
 
 namespace NorthWind.Domain.Services
 {
@@ -29,6 +30,19 @@ namespace NorthWind.Domain.Services
 
         public Category Add(Category category)
         {
+            // Domain rules validation
+            if (!category.IsValid())
+            {
+                return category;
+            }
+
+            category.ValidationResult = new CategoryCanBeAdded(categoryRepository).Validate(category);
+            if (!category.ValidationResult.IsValid)
+            {
+                return category;
+            }
+
+            category.ValidationResult.Message = "Category added with success";
             return categoryRepository.Add(category);
         }
 

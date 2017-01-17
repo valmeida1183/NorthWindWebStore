@@ -40,6 +40,9 @@ namespace NorthWind.Infra.Data.UoW
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+            // não é obrigatório, significa que o esta classe está etiquetada como "para ser removida". 
+            // Quando o GC passar esta classe já está marcada para ser removida, caso contrário ele primeiro marcaria para ser removida.
+            // e posteriormente o GC em outro ciclo removeria da memória.
         }
     }
 }

@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using NorthWind.Domain.Interfaces.Validation;
+using System.Collections.Generic;
+using System;
+using NorthWind.Domain.ValueObjects;
+using NorthWind.Domain.Validations.Categories;
 
 namespace NorthWind.Domain.Entities
 {
-    public class Category
+    public class Category: ISelfValidator
     {
         public Category()
         {
@@ -15,5 +19,13 @@ namespace NorthWind.Domain.Entities
         public byte[] Picture { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
+
+        public ValidationResult ValidationResult  { get; set; }
+
+        public bool IsValid()
+        {
+            ValidationResult = new CategoryIsConsistent().Validate(this);
+            return ValidationResult.IsValid;
+        }
     }
 }

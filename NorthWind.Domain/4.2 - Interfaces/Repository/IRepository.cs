@@ -11,6 +11,7 @@ namespace NorthWind.Domain.Interfaces.Repository
         TEntity Add(TEntity obj);
         TEntity GetById(int id);
         IEnumerable<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll(int skip, int take);
         TEntity Update(TEntity obj);
         void Remove(TEntity obj);
         IEnumerable<TEntity> Search(Expression<Func<TEntity, bool>> predicate);

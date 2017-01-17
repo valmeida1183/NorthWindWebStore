@@ -45,6 +45,9 @@ namespace NorthWind.WebService
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseCors(builder =>
+                builder.AllowAnyOrigin());
+
             app.UseMvc();
         }
     }

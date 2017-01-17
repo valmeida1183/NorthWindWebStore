@@ -28,6 +28,9 @@ namespace NorthWind.Infra.Data.EntityMap
                 entity.Property(e => e.Description).HasColumnType("ntext");
 
                 entity.Property(e => e.Picture).HasColumnType("image");
+
+                // Ignore validation object
+                entity.Ignore(e => e.ValidationResult);
             });
         }
     }
