@@ -49,7 +49,7 @@ namespace NorthWind.WebService.Controllers
 
             if (expando.category == null)
             {
-                return NoContent();
+                return NotFound();
             }
             return Ok(expando.category);
         }
@@ -65,9 +65,9 @@ namespace NorthWind.WebService.Controllers
 
             dynamic expando = categoryAppService.Add(category);
 
-            if (expando == null)
+            if (!expando.category.ValidationResult.IsValid)
             {
-                return NoContent();
+                return BadRequest(expando.category);
             }
 
             return CreatedAtRoute("GetCategory", new { id = expando.category.CategoryId }, expando);
@@ -83,12 +83,12 @@ namespace NorthWind.WebService.Controllers
             }
 
             dynamic expando = categoryAppService.Update(category);
-            if (expando == null)
+            if (!expando.category.ValidationResult.IsValid)
             {
-                return NotFound();
+                return BadRequest(expando.category);
             }
 
-            return Ok();
+            return NoContent();
             
         }
 
@@ -103,7 +103,7 @@ namespace NorthWind.WebService.Controllers
 
             if (categoryAppService.Remove(id))
             {
-                return Ok();
+                return NoContent();
             }
 
             return NotFound();

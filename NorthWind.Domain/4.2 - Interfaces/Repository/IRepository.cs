@@ -9,7 +9,7 @@ namespace NorthWind.Domain.Interfaces.Repository
     public interface IRepository<TEntity> where TEntity : class
     {
         TEntity Add(TEntity obj);
-        TEntity GetById(int id);
+        TEntity GetById(int id, bool noTracking = false);
         IEnumerable<TEntity> GetAll();
         IEnumerable<TEntity> GetAll(int skip, int take);
         TEntity Update(TEntity obj);

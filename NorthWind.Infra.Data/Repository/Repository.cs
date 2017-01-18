@@ -27,8 +27,8 @@ namespace NorthWind.Infra.Data.Repository
             var objreturn = DbSet.Add(obj);
             return objreturn.Entity;
                         
-        }
-               
+        }       
+
         public virtual IEnumerable<TEntity> GetAll()
         {
             return DbSet.ToList();
@@ -40,10 +40,21 @@ namespace NorthWind.Infra.Data.Repository
             return DbSet.ToList().Skip(skip).Take(take);
         }
 
-        public virtual TEntity GetById(int id)
+        public virtual TEntity GetById(int id, bool noTracking = false)
         {
+            if (noTracking)
+            {
+                Db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                var entity = DbSet.Find(id);
+                Db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
+
+                return entity;
+            }
+
             return DbSet.Find(id);
         }
+
+       
 
         public virtual void Remove(TEntity obj)
         {
@@ -62,7 +73,11 @@ namespace NorthWind.Infra.Data.Repository
 
         public virtual TEntity Update(TEntity obj)
         {
-            var entry = Db.Entry(obj);
+            if (DbSet.Local.Contains(obj))
+            {
+                
+            }
+            var entry = Db.Entry(obj);            
             DbSet.Attach(obj);
             entry.State = EntityState.Modified;
 

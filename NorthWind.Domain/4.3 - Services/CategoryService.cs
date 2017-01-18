@@ -30,7 +30,7 @@ namespace NorthWind.Domain.Services
 
         public Category Add(Category category)
         {
-            // Domain rules validation
+            // entidade se auto valida.
             if (!category.IsValid())
             {
                 return category;
@@ -48,6 +48,18 @@ namespace NorthWind.Domain.Services
 
         public Category Update(Category category)
         {
+            if (!category.IsValid())
+            {
+                return category;
+            }
+
+            category.ValidationResult = new CategoryCanBeSaved(categoryRepository).Validate(category);
+            if (!category.ValidationResult.IsValid)
+            {
+                return category;
+            }
+
+            category.ValidationResult.Message = "Category saved with success";
             return categoryRepository.Update(category);
         }
 

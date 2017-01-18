@@ -1,4 +1,6 @@
-﻿using NorthWind.Infra.Data.Interface;
+﻿using NorthWind.Application.Validation;
+using NorthWind.Domain.ValueObjects;
+using NorthWind.Infra.Data.Interface;
 
 namespace NorthWind.Application
 {
@@ -19,6 +21,19 @@ namespace NorthWind.Application
         public void Commit()
         {
             _uow.Commit();
+        }
+
+        protected ValidationAppResult DomainToApplicationResult(ValidationResult result)
+        {
+            var validationAppResult = new ValidationAppResult();
+
+            foreach (var validationError in result.Errors)
+            {
+                validationAppResult.Erros.Add(new ValidationAppError(validationError.Message));
+            }
+            validationAppResult.IsValid = result.IsValid;
+
+            return validationAppResult;
         }
     }
 }

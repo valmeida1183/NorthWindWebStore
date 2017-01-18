@@ -42,18 +42,15 @@ namespace NorthWind.Application.Services
             BeginTransaction();
             
             var entity = DynamicMap.ToEntity<Category>(category);
-
-            if (string.IsNullOrEmpty(entity.CategoryName)) // change to validation concern pattern
-            {
-                return null;
-            }
             
             dynamic expando = new ExpandoObject();
             expando.category = categoryService.Add(entity);
 
-            Commit();
-            //var id = expando.category.CategoryId;
-
+            if (expando.category.ValidationResult.IsValid)
+            {
+                Commit();
+            }
+            
             return expando;
         }
 
@@ -62,16 +59,14 @@ namespace NorthWind.Application.Services
             BeginTransaction();
 
             var entity = DynamicMap.ToEntity<Category>(category);
-
-            if (entity.CategoryId == 0)
-            {
-                return null;
-            }
             dynamic expando = new ExpandoObject();
             expando.category = categoryService.Update(entity);
 
-            Commit();
-
+            if (expando.category.ValidationResult.IsValid)
+            {
+                Commit();
+            }
+            
             return expando;
         }
 
