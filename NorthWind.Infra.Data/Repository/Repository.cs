@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -73,10 +72,6 @@ namespace NorthWind.Infra.Data.Repository
 
         public virtual TEntity Update(TEntity obj)
         {
-            if (DbSet.Local.Contains(obj))
-            {
-                
-            }
             var entry = Db.Entry(obj);            
             DbSet.Attach(obj);
             entry.State = EntityState.Modified;

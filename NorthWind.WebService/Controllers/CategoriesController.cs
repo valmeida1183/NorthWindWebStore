@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using NorthWind.Domain.Entities;
-using Infra.Data.Context;
+﻿using Microsoft.AspNetCore.Mvc;
 using NorthWind.Application.Interfaces;
 using System.Dynamic;
 

@@ -4,7 +4,7 @@
   "dependencies": {
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
     "NETStandard.Library": "1.6.1",
-    "NorthWind.Domain": "1.0.0-*"
+    "NorthWind.Domain": "1.0.0-*"    
   },
 
   "frameworks": {
