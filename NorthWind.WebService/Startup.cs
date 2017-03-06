@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Infra.Data.Context;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NorthWind.Application.AutoMapper;
 using NorthWind.Infra.CrossCuting.IoC;
+using NorthWind.Infra.CrossCuting.Identity.Models;
 
 namespace NorthWind.WebService
 {
@@ -32,7 +36,45 @@ namespace NorthWind.WebService
             services.AddCors();
 
             //Add Automapper configuration
-            //AutoMapperConfig.RegisterMappings();       
+            //AutoMapperConfig.RegisterMappings();  
+
+            // Add framework services.
+            services.AddDbContext<NorthWindContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("NorthWindDB"));
+                // Register the entity sets needed by OpenIddict.
+                // Note: use the generic overload if you need
+                // to replace the default OpenIddict entities.
+                options.UseOpenIddict();
+            });
+
+            // Register the Identity services.
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<NorthWindContext>()
+            .AddDefaultTokenProviders();
+
+
+            // Register the OpenIddict services.
+            // Note: use the generic overload if you need
+            // to replace the default OpenIddict entities.
+            services.AddOpenIddict(options => {
+                // Register the Entity Framework stores.
+                options.AddEntityFrameworkCoreStores<NorthWindContext>();
+
+                // Register the ASP.NET Core MVC binder used by OpenIddict.
+                // Note: if you don't call this method, you won't be able to
+                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+                options.AddMvcBinders();
+
+                // Enable the token endpoint (required to use the password flow).
+                options.EnableTokenEndpoint("/connect/token");
+
+                // Allow client applications to use the grant_type=password flow.
+                options.AllowPasswordFlow();
+
+                // During development, you can disable the HTTPS requirement.
+                options.DisableHttpsRequirement();
+            });
 
             //Add Application dependency injection
             BootStrapper.RegisterServices(services, Configuration.GetConnectionString("NorthWindDB"));
@@ -44,6 +86,12 @@ namespace NorthWind.WebService
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseIdentity();
+
+            app.UseOAuthValidation();
+
+            app.UseOpenIddict();
 
             app.UseCors(builder =>
                 builder.AllowAnyOrigin());

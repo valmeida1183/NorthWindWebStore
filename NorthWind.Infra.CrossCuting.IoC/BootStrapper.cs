@@ -19,8 +19,8 @@ namespace NorthWind.Infra.CrossCuting.IoC
             // Registra todas as injeções de dependência do projeto em um módulo separado.
 
             // Add framework services.
-            services.AddDbContext<NorthWindContext>(options =>
-            options.UseSqlServer(connectionString));            
+            //services.AddDbContext<NorthWindContext>(options =>
+            //options.UseSqlServer(connectionString));            
 
             // App
             services.AddScoped<ICategoryAppService, CategoryAppService>();
