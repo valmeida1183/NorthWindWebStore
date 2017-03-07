@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NorthWind.Application.Interfaces;
 using System.Dynamic;
 
@@ -30,7 +31,9 @@ namespace NorthWind.WebService.Controllers
             return Ok(expando.categories);                        
         }
 
+
         // GET api/categories/5
+        [Authorize]
         [HttpGet("{id}", Name = "GetCategory")]
         public IActionResult Get(int id)
         {
